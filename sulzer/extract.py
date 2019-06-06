@@ -182,6 +182,7 @@ class Extract:
 
         >>> print Extract.qualified_part_folder('130550', 'assembly')
         L:\\Division2\\PROJECTS FOLDER\\130500-130999\\130550\\Assembly\\NFT\\QC Reports
+		
         """
         if dept == 'balance':
             return Extract._balance_qc_folder(job_number)
