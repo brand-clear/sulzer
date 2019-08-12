@@ -7,9 +7,11 @@ from defaults import Path
 class Extract:
     """The Extract Class represents a collection of search methods designed to 
     return specific network storage locations for a given job number's data.
+
     """
 
     _PROJECTS_FOLDER = Path.PROJECTS_FOLDER
+    _AX_PICS = Path.AX_PICS
 
 
     @staticmethod
@@ -150,7 +152,7 @@ class Extract:
         """
         return Extract.valid_path(
             os.path.join(Extract.projects_folder_root(job_number), job_number)
-            )
+        )
 
     @classmethod
     def qualified_part_folder(cls, job_number, dept='balance'):
@@ -182,7 +184,6 @@ class Extract:
 
         >>> print Extract.qualified_part_folder('130550', 'assembly')
         L:\\Division2\\PROJECTS FOLDER\\130500-130999\\130550\\Assembly\\NFT\\QC Reports
-		
         """
         if dept == 'balance':
             return Extract._balance_qc_folder(job_number)
@@ -340,6 +341,83 @@ class Extract:
                 )
             )
 
+    @classmethod
+    def pictures_folder_root(cls, job_number):
+        """Find the cls._AX_PICS subdirectory that contains a given job number's
+        folder.
+
+        Parameters
+        ----------
+        job_number : str
+
+        Returns
+        -------
+        str
+            Absolute path to subdirectory.
+        
+        Raises
+        ------
+        PicturesFolderRootError
+
+        Examples
+        --------
+        >>> print Extract.pictures_folder_root('123123')
+        T:\\pictures\\Axapta\\123000-199
+        
+        >>> Extract.pictures_folder_root('912362')
+        Traceback (most recent call last):
+            ...
+        PicturesFolderRootError: The pictures\Axapta root for '912362' could not be found.
+
+        """
+        for f in os.listdir(cls._AX_PICS):
+            try:
+                val1, val2 = f.split('-')
+                val2 = val1[:3] + val2
+            except ValueError:
+                # Too many values to unpack
+                pass
+            else:
+                try:
+                    if int(val1) <= int(job_number) <= int(val2
+                    ):
+                        return os.path.join(cls._AX_PICS, f)
+                except ValueError:
+                    # Invalid literal for int() with base 10
+                    pass
+        raise PicturesFolderRootError(job_number)
+
+    @classmethod
+    def pictures_folder(cls, job_number):
+        """Find the cls._AX_PICS subdirectory that contains pictures for a given
+        job number.
+
+        Parameters
+        ----------
+        job_number : str
+
+        Returns
+        -------
+        str
+            Absolute path to subdirectory.
+
+        Raises
+        ------
+        PicturesFolderRootError
+            Raised from Extract.pictures_folder_root()
+        DestinationError
+            Raised from Extract.valid_path()
+
+        Examples
+        --------
+        >>> print Extract.pictures_folder('123123')
+        T:\\pictures\\Axapta\\123000-199\\123123
+
+        """
+        return Extract.valid_path(
+            os.path.join(Extract.pictures_folder_root(job_number), job_number)
+        )
+
 
 class JobNumberError(Exception):
     """Raised when a job number is not found in a given input.
@@ -371,6 +449,22 @@ class ProjectsFolderRootError(Exception):
         super(ProjectsFolderRootError, self).__init__(message)
 
 
+class PicturesFolderRootError(Exception):
+    """Raised when a pictures\Axapta root is not found for a given job number.
+	
+	Parameters
+	----------
+	job_number : str
+
+	"""
+    def __init__(self, job_number):
+        message = (
+            "The pictures\Axapta root for '%s' could not be found." 
+            % job_number
+            )
+        super(PicturesFolderRootError, self).__init__(message)
+
+
 class DestinationError(Exception):
     """Raised when the destination of a file or directory can not be found.
 	
@@ -388,9 +482,7 @@ class DestinationError(Exception):
 
 
 if __name__ == '__main__':
-	# doctests will work only if ran on a computer that is connected to Sulzer
-	# La Porte NFS.
-	import doctest
-	doctest.testmod(verbose=1)
-
-
+    # doctests will work only if ran on a computer that is connected to Sulzer
+    # La Porte NFS.
+    import doctest
+    doctest.testmod(verbose=1)

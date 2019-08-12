@@ -9,6 +9,7 @@ class Path:
     DATA = osjoin(ROOT, 'data')
     IMAGES = osjoin(DATA, 'images')
     PROJECTS_FOLDER = 'L:\\Division2\\PROJECTS FOLDER'
+    AX_PICS = 'T:\\pictures\\Axapta'
 
 
 class Icon:

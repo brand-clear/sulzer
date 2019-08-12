@@ -5,6 +5,9 @@ import sys
 from PyQt4 import QtGui
 from pyqtauto.widgets import ExceptionMessageBox
 
+from extract import Extract
+
+
 
 class Logic(object):
 
@@ -36,6 +39,7 @@ class Logic(object):
         Traceback (most recent call last):
             ...
         TypeError: coercing to Unicode: need string or buffer, NoneType found
+
         """
         os.startfile(path)
 
@@ -58,8 +62,8 @@ class Sos(object):
 
 
 if __name__ == '__main__':
-    import doctest
-    doctest.testmod(verbose=2)
+    # import doctest
+    # doctest.testmod(verbose=2)
     app = QtGui.QApplication(sys.argv)
     app.setStyle(QtGui.QStyleFactory.create('cleanlooks'))
     Sos.open_path('c')
