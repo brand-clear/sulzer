@@ -1,2 +1,2 @@
 # sulzer
-File/directory navigator and data extraction scripts for Sulzer network file system.
+File/directory navigator and data extraction scripts for network file system.
