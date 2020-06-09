@@ -1,10 +1,13 @@
+"""
+sulzer.defaults contains the absolute paths to standard directories and images.
 
-
+"""
 from os.path import join as osjoin
 from os.path import dirname
 
 
 class Path:
+    """Paths to default directories."""
     ROOT = dirname(__file__)
     DATA = osjoin(ROOT, 'data')
     IMAGES = osjoin(DATA, 'images')
@@ -19,12 +22,10 @@ class Path:
 
 
 class Icon:
+    """Paths to default images."""
     ROOT = Path.IMAGES
     SULZER = osjoin(ROOT, 'sulzer.png')
     OPEN = osjoin(ROOT, 'open.png')
     SAVE = osjoin(ROOT, 'save.png')
     REFRESH = osjoin(ROOT, 'refresh.png')
     USERS = osjoin(ROOT, 'users.png')
-
-
-

@@ -10,11 +10,9 @@ class Extract:
 	return specific network storage locations for a given job number's data.
 
 	"""
-
 	_PROJECTS_FOLDER = Path.PROJECTS_FOLDER
 	_AX_PICS = Path.AX_PICS
 	_QC_MODELS = Path.QC_MODELS
-
 
 	@staticmethod
 	def valid_path(path):
@@ -164,7 +162,7 @@ class Extract:
 		Parameters
 		----------
 		job_number : str
-		dept : {'balance', assembly'}, optional
+		dept : {'balance', 'assembly'}, optional
 			Department for which new part was qualified.
 
 		Returns
@@ -188,12 +186,12 @@ class Extract:
 		L:\\Division2\\PROJECTS FOLDER\\130500-130999\\130550\\Assembly\\NFT\\QC Reports
 		"""
 		if dept == 'balance':
-			return Extract._balance_qc_folder(job_number)
+			return Extract.balance_qc_folder(job_number)
 		elif dept == 'assembly':
-			return Extract._assembly_qc_folder(job_number)
+			return Extract.assembly_qc_folder(job_number)
 
 	@classmethod
-	def _balance_qc_folder(cls, job_number):
+	def balance_qc_folder(cls, job_number):
 		"""
 		Parameters
 		----------
@@ -233,7 +231,7 @@ class Extract:
 			return path
 
 	@classmethod
-	def _assembly_qc_folder(cls, job_number):
+	def assembly_qc_folder(cls, job_number):
 		"""
 		Parameters
 		----------
@@ -304,8 +302,8 @@ class Extract:
 				Extract.projects_folder(job_number), 
 				'Drafting', 
 				'Issued Prints'
-				)
 			)
+		)
 
 	@classmethod
 	def issued_print_pdf(cls, pdf):
@@ -340,8 +338,8 @@ class Extract:
 			os.path.join(
 				Extract.issued_prints_folder(Extract.job_number(pdf)),
 				pdf
-				)
 			)
+		)
 
 	@classmethod
 	def pictures_folder_root(cls, job_number):
@@ -381,8 +379,7 @@ class Extract:
 				pass
 			else:
 				try:
-					if int(val1) <= int(job_number) <= int(val2
-					):
+					if int(val1) <= int(job_number) <= int(val2):
 						return os.path.join(cls._AX_PICS, f)
 				except ValueError:
 					# Invalid literal for int() with base 10
@@ -450,8 +447,6 @@ class Extract:
 		return Extract.valid_path(os.path.join(cls._QC_MODELS, stp))
 
 
-
-
 class JobNumberError(Exception):
 	"""
 	Raised when a job number is not found in a given input.
@@ -480,7 +475,7 @@ class ProjectsFolderRootError(Exception):
 		message = (
 			"The PROJECTS FOLDER root for '%s' could not be found." 
 			% job_number
-			)
+		)
 		super(ProjectsFolderRootError, self).__init__(message)
 
 
@@ -497,7 +492,7 @@ class PicturesFolderRootError(Exception):
 		message = (
 			"The pictures\Axapta root for '%s' could not be found." 
 			% job_number
-			)
+		)
 		super(PicturesFolderRootError, self).__init__(message)
 
 
@@ -514,7 +509,7 @@ class DestinationError(Exception):
 		message = (
 			"'%s' could not be found."
 			% destination
-			)
+		)
 		super(DestinationError, self).__init__(message)
 
 
