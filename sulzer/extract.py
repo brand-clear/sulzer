@@ -183,11 +183,17 @@ class Extract:
 
 		>>> print Extract.qualified_part_folder('130550', 'assembly')
 		L:\\Division2\\PROJECTS FOLDER\\130500-130999\\130550\\Assembly\\NFT\\QC Reports
+
+		>>> print Extract.qualified_part_folder('130550', 'blading')
+		L:\\Division2\\PROJECTS FOLDER\\130500-130999\\130550\\Blading\\QC Reports
+
 		"""
 		if dept == 'balance':
 			return cls.balance_qc_folder(job_number)
 		elif dept == 'assembly':
 			return cls.assembly_qc_folder(job_number)
+		elif dept == 'blading':
+			return cls.blading_qc_folder(job_number)
 
 	@classmethod
 	def balance_qc_folder(cls, job_number):
