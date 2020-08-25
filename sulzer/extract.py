@@ -150,9 +150,8 @@ class Extract:
 		L:\\Division2\\PROJECTS FOLDER\\130500-130999\\130550
 
 		"""
-		return Extract.valid_path(
-			os.path.join(Extract.projects_folder_root(job_number), job_number)
-		)
+		return cls.valid_path(os.path.join(cls.projects_folder_root(job_number), 
+			job_number))
 
 	@classmethod
 	def qualified_part_folder(cls, job_number, dept='balance'):
@@ -186,9 +185,9 @@ class Extract:
 		L:\\Division2\\PROJECTS FOLDER\\130500-130999\\130550\\Assembly\\NFT\\QC Reports
 		"""
 		if dept == 'balance':
-			return Extract.balance_qc_folder(job_number)
+			return cls.balance_qc_folder(job_number)
 		elif dept == 'assembly':
-			return Extract.assembly_qc_folder(job_number)
+			return cls.assembly_qc_folder(job_number)
 
 	@classmethod
 	def balance_qc_folder(cls, job_number):
@@ -216,12 +215,8 @@ class Extract:
 		it will be created as required.
 
 		"""
-		path = os.path.join(
-			Extract.projects_folder(job_number),
-			'Balance',
-			'NFT',
-			'QC Reports'
-		)
+		path = os.path.join(cls.projects_folder(job_number), 'Balance', 'NFT',
+			'QC Reports')
 
 		try:
 			os.mkdir(path)
@@ -256,12 +251,44 @@ class Extract:
 		it will be created as required.
 		
 		"""
-		path = os.path.join(
-			Extract.projects_folder(job_number),
-			'Assembly',
-			'NFT',
-			'QC Reports'
-		)
+		path = os.path.join(cls.projects_folder(job_number), 'Assembly', 'NFT',
+			'QC Reports')
+
+		try:
+			os.mkdir(path)
+		except OSError:
+			pass  # Path already exists
+		finally:
+			return path
+
+	@classmethod
+	def blading_qc_folder(cls, job_number):
+		"""
+		Parameters
+		----------
+		job_number : str
+
+		Returns
+		-------
+		str
+			Absolute path to directory containing new part documentation for
+			blading department.
+
+		Raises
+		------
+		ProjectsFolderRootError
+			Raised from Extract.projects_folder_root().
+		DestinationError
+			Raised from Extract.valid_path().
+		
+		Notes
+		-----
+		Since this directory is not built into every PROJECTS FOLDER template, 
+		it will be created as required.
+		
+		"""
+		path = os.path.join(cls.projects_folder(job_number), 'Blading', 
+			'QC Reports')
 
 		try:
 			os.mkdir(path)
@@ -297,13 +324,8 @@ class Extract:
 		L:\\Division2\\PROJECTS FOLDER\\130500-130999\\130550\\Drafting\\Issued Prints
 
 		"""
-		return Extract.valid_path(
-			os.path.join(
-				Extract.projects_folder(job_number), 
-				'Drafting', 
-				'Issued Prints'
-			)
-		)
+		return cls.valid_path(os.path.join(cls.projects_folder(job_number), 
+				'Drafting', 'Issued Prints'))
 
 	@classmethod
 	def issued_print_pdf(cls, pdf):
@@ -334,12 +356,8 @@ class Extract:
 		L:\\Division2\\PROJECTS FOLDER\\129500-129999\\129705\\Drafting\\Issued Prints\\129705-STEM-MFG-00.pdf
 
 		"""
-		return Extract.valid_path(
-			os.path.join(
-				Extract.issued_prints_folder(Extract.job_number(pdf)),
-				pdf
-			)
-		)
+		return cls.valid_path(os.path.join(cls.issued_prints_folder(
+			cls.job_number(pdf)), pdf))
 
 	@classmethod
 	def pictures_folder_root(cls, job_number):
@@ -413,9 +431,8 @@ class Extract:
 		T:\\pictures\\Axapta\\123000-199\\123123
 
 		"""
-		return Extract.valid_path(
-			os.path.join(Extract.pictures_folder_root(job_number), job_number)
-		)
+		return cls.valid_path(os.path.join(cls.pictures_folder_root(job_number), 
+			job_number))
 
 	@classmethod
 	def qc_model_stp(cls, stp):
@@ -444,7 +461,7 @@ class Extract:
 		DestinationError: 'Q:\\Quality Control\\quality_controller\\data\\cad models\\129705-STEM-MFG-00.stp' could not be found.
 
 		"""
-		return Extract.valid_path(os.path.join(cls._QC_MODELS, stp))
+		return cls.valid_path(os.path.join(cls._QC_MODELS, stp))
 
 
 class JobNumberError(Exception):
